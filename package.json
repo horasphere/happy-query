@@ -1,0 +1,16 @@
+{
+  "name": "happy-query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maxime Morin <maxime.morin2@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "webpack": "^1.12.14"
+  }
+}

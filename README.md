@@ -1,1 +1,1 @@
-# happy-query
+# Happy Query
