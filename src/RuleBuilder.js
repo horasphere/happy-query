@@ -50,27 +50,35 @@ RuleBuilder.Not = function(rule) {
     return {
         condition: "not",
         rule: rule
-    }
+    };
 }
 
 RuleBuilder.Bool = function(field) {
-    return new Operator('bool', field)
+    return new Operator('bool', field);
+}
+
+RuleBuilder.Equal = function(field, value) {
+    return new Operator('equal', field, value);
 }
 
 RuleBuilder.GreaterThan = function(field, value) {
-    return new Operator('gt', field, value)
+    return new Operator('gt', field, value);
 }
 
 RuleBuilder.OneOf = function(field, value) {
-    return new Operator('oneOf', field, value)
+    return new Operator('oneOf', field, value);
 }
 
 RuleBuilder.IsEmpty = function(field) {
-    return new Operator('isEmpty', field)
+    return new Operator('isEmpty', field);
 }
 
 RuleBuilder.Always = function() {
     return new Always();
+}
+
+RuleBuilder.NestedRule = function(field, rule) {
+    return new Operator('nested', field, rule);
 }
 
 

@@ -14,6 +14,16 @@ describe('RuleBuilder [operators]', function () {
         });
     });
 
+    it('should build a Equal rule', function () {
+        var rule = RuleBuilder.Equal('age', 18);
+
+        expect(rule).to.deep.equal({
+            operator: 'equal',
+            field: 'age',
+            value: 18
+        });
+    });
+
     it('should build a GreaterThan rule', function () {
         var rule = RuleBuilder.GreaterThan('age', 18);
 
@@ -48,6 +58,17 @@ describe('RuleBuilder [operators]', function () {
 
         expect(rule).to.deep.equal({
             operator: 'always'
+        });
+    });
+
+    it('should build a NestedRule rule', function () {
+        var cityRule = RuleBuilder.Equal('city', 'chicoutimi');
+        var rule = RuleBuilder.NestedRule('address', cityRule)
+
+        expect(rule).to.deep.equal({
+            operator: 'nested',
+            field: 'address',
+            value: cityRule
         });
     });
 })

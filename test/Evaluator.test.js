@@ -18,6 +18,22 @@ describe('Evaluator [bool]', function () {
     });
 })
 
+describe('Evaluator [equal]', function () {
+
+    it('should be equal', function () {
+        var rule = RuleBuilder.Equal('age', 18);
+
+        expect(Evaluator.evaluate(rule, {age: 18})).to.be.true;
+    });
+
+    it('should not be equal', function () {
+        var rule = RuleBuilder.GreaterThan('age', 18);
+
+        expect(Evaluator.evaluate(rule, {age: 17})).to.be.false;
+    });
+
+})
+
 describe('Evaluator [gt]', function () {
 
     it('should be greaterThan', function () {
@@ -72,6 +88,20 @@ describe('Evaluator [always]', function () {
         var rule = RuleBuilder.Always();
 
         expect(Evaluator.evaluate(rule, {})).to.be.true;
+    });
+
+})
+
+describe('Evaluator [nested]', function () {
+
+    it('should evaluate a nested rule.', function () {
+        var rule = RuleBuilder.NestedRule('address', RuleBuilder.Equal('city', 'chicoutimi'));
+
+        expect(Evaluator.evaluate(rule, {
+            address: {
+                city: 'chicoutimi'
+            }
+        })).to.be.true;
     });
 
 })

@@ -27,13 +27,14 @@ var Condition = {
 }
 
 var Operator = {
-    'bool': function(value, rule) {
-        return (value === true)
+    'bool': function(rule, target) {
+        return (getValue(rule.field, target) === true)
     },
-    'gt': function(value, rule) {
-        return value > rule.value;
+    'gt': function(rule, target) {
+        return getValue(rule.field, target) > rule.value;
     },
-    'oneOf': function(value, rule) {
+    'oneOf': function(rule, target) {
+        var value = getValue(rule.field, target);
         for(var i=0; i < rule.value.length; i++) {
             if(rule.value[i] === value)
                 return true;
@@ -41,23 +42,35 @@ var Operator = {
 
         return false;
     },
-    'isEmpty': function(value, rule) {
-        return value.length === 0;
+    'equal': function(rule, target) {
+        return getValue(rule.field, target) === rule.value;
+    },
+    'isEmpty': function(rule, target) {
+        return getValue(rule.field, target).length === 0;
+    },
+    'always': function(rule, target) {
+        return true;
+    },
+    'nested': function(rule, target) {
+        return evaluate(rule.value, getValue(rule.field, target));
     }
+
+}
+
+var getValue = function(field, target) {
+    var value = target[field];
+
+    if(value === undefined)
+        throw new Error('Field can\'t be undefined: ' + field);
+
+    return value;
 }
 
 var evaluate = function(rule, target) {
     if(rule.condition)
         return Condition[rule.condition].call(null, rule, target)
 
-    if(rule.operator === 'always')
-        return true;
-
-    var value = target[rule.field];
-    if(value === undefined)
-        throw new Error('Field can\'t be undefined: ' + rule.field);
-
-    return Operator[rule.operator].call(null, value, rule)
+    return Operator[rule.operator].call(null, rule, target)
 }
 
 module.exports = {
